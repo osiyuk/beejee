@@ -107,6 +107,33 @@ UPDATE tasks SET updated = $updated, text = :text WHERE created = $key;"
 
 // Controller
 
+if ('POST' == $_SERVER['REQUEST_METHOD']) switch($_POST['method']) {
+case 'new_task':
+	$definitions = array(
+		'username' => FILTER_SANITIZE_SPECIAL_CHARS,
+		'email' => FILTER_SANITIZE_EMAIL,
+		'text' => FILTER_SANITIZE_SPECIAL_CHARS
+	);
+
+	$valid = true;
+	$values = filter_input_array(INPUT_POST, $definitions);
+
+	foreach ($values as $key => $val) {
+		if (is_null($val)) {
+			$valid = false;
+			$errors[$key] = 1;
+		}
+		if ($val === false) {
+			$valid = false;
+			$errors[$key] = 2;
+		}
+	}
+
+	if ($valid)
+		(new Task)->create($values);
+	break;
+}
+
 $definitions = array(
 	'sort' => FILTER_VALIDATE_INT,
 	'column' => FILTER_SANITIZE_STRING,
@@ -115,7 +142,7 @@ $definitions = array(
 
 $get = filter_input_array(INPUT_GET, $definitions);
 $sort = boolval($get['sort']);
-$column = $get['column'];
+$column = $get['column'] ?? '';
 $page = $get['page'] ?? 1;
 
 $tasks = (new Task)->read($sort, $column, $page);
