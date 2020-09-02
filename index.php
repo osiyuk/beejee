@@ -105,7 +105,25 @@ UPDATE tasks SET updated = $updated, text = :text WHERE created = $key;"
 }
 
 
+// Functions
+
+function auth_cookie(string $login) : string
+{
+	$credentials = $_SERVER['REMOTE_ADDR'] . ';' . $login;
+	$cookie = hash('sha512', $credentials);
+
+	unset($credentials);
+	return $cookie;
+}
+
+
 // Controller
+
+$authorization = false;
+
+if (isset($_COOKIE['AUTH']) && auth_cookie(ADMIN) == $_COOKIE['AUTH'])
+	$authorization = true;
+
 
 if ('POST' == $_SERVER['REQUEST_METHOD']) switch($_POST['method']) {
 case 'new_task':
@@ -131,6 +149,23 @@ case 'new_task':
 
 	if ($valid)
 		(new Task)->create($values);
+	break;
+
+case 'login':
+	$login = $_POST['login'] . ':' . $_POST['pass'];
+
+	if (ADMIN != $login) {
+		$errors['auth'] = 1;
+		break;
+	}
+
+	setcookie('AUTH', auth_cookie($login));
+	$authorization = true;
+	break;
+
+case 'logout':
+	setcookie('AUTH', '');
+	$authorization = false;
 	break;
 
 case 'task_completed':
