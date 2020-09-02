@@ -44,12 +44,22 @@ VALUES ($created, :a, :b, :c);"
 
 		$offset = ($page - 1) * $limit;
 		$result = $db->query("
-SELECT created as key, username, email, text
+SELECT created as key, username, email, text, completed, updated
 FROM tasks LIMIT $limit OFFSET $offset;"
 		);
 
 		$tasks = array();
 		while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+			if ($row['completed'] > 0)
+				$status[] = array('success' => 'выполнено');
+			unset($row['completed']);
+
+			if ($row['updated'] > 0)
+				$status[] = array('light' =>
+					'отредактировано администратором');
+			unset($row['updated']);
+
+			$row['status'] = $status;
 			$tasks[] = $row;
 		}
 
@@ -88,5 +98,10 @@ UPDATE tasks SET updated = $updated, text = :text WHERE created = $key;"
 	}
 }
 
+
+// Controller
+
+$page = 1;
+$tasks = (new Task)->read($page);
 
 phpinfo(INFO_VARIABLES); // INFO_CONFIGURATION
