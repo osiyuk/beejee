@@ -101,7 +101,10 @@ UPDATE tasks SET updated = $updated, text = :text WHERE created = $key;"
 
 // Controller
 
-$page = 1;
+$page = intval($_GET['page']) ?? 1;
 $tasks = (new Task)->read($page);
+
+$task_count = $db->querySingle("SELECT count(created) FROM tasks");
+$pages = ceil($task_count / PAGINATION);
 
 phpinfo(INFO_VARIABLES); // INFO_CONFIGURATION
