@@ -107,10 +107,17 @@ UPDATE tasks SET updated = $updated, text = :text WHERE created = $key;"
 
 // Controller
 
-$sort = boolval($_GET['sort'] ?? 0);
-$column = $_GET['column'] ?? 'created';
+$definitions = array(
+	'sort' => FILTER_VALIDATE_INT,
+	'column' => FILTER_SANITIZE_STRING,
+	'page' => FILTER_VALIDATE_INT
+);
 
-$page = intval($_GET['page']) ?? 1;
+$get = filter_input_array(INPUT_GET, $definitions);
+$sort = boolval($get['sort']);
+$column = $get['column'];
+$page = $get['page'] ?? 1;
+
 $tasks = (new Task)->read($sort, $column, $page);
 
 $task_count = $db->querySingle("SELECT count(created) FROM tasks");
