@@ -132,6 +132,13 @@ case 'new_task':
 	if ($valid)
 		(new Task)->create($values);
 	break;
+
+case 'task_completed':
+	$key = filter_input(INPUT_POST, 'key', FILTER_VALIDATE_INT);
+	$values = array('type' => 'completed');
+
+	(new Task)->update($key, $values);
+	break;
 }
 
 $definitions = array(
