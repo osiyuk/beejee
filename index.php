@@ -139,6 +139,14 @@ case 'task_completed':
 
 	(new Task)->update($key, $values);
 	break;
+
+case 'update_text':
+	$key = filter_input(INPUT_POST, 'key', FILTER_VALIDATE_INT);
+	$text = filter_input(INPUT_POST, 'text', FILTER_SANITIZE_SPECIAL_CHARS);
+	$values = array('type' => 'text', 'text' => $text);
+
+	(new Task)->update($key, $values);
+	break;
 }
 
 $definitions = array(
