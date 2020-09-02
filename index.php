@@ -7,7 +7,6 @@ define('ADMIN', 'admin:123');
 
 $db = new SQLite3('db.sqlite', SQLITE3_OPEN_READWRITE);
 
-
 interface CRUD {
 	public function create(array $fields): int;
 	public function read(int $page, int $perPage): array;
@@ -15,6 +14,8 @@ interface CRUD {
 	public function delete(int $key): int;
 }
 
+
+// Model
 
 final class Task implements CRUD
 {
@@ -48,8 +49,9 @@ FROM tasks LIMIT $limit OFFSET $offset;"
 		);
 
 		$tasks = array();
-		while ($row = $result->fetchArray(SQLITE3_ASSOC))
+		while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
 			$tasks[] = $row;
+		}
 
 		return $tasks;
 	}

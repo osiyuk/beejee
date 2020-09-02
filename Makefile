@@ -4,3 +4,6 @@ init:
 
 clear:
 	rm -f db.sqlite
+
+server:
+	php -S localhost:80
