@@ -9,7 +9,8 @@ $db = new SQLite3('db.sqlite', SQLITE3_OPEN_READWRITE);
 
 interface CRUD {
 	public function create(array $fields): int;
-	public function read(int $page, int $perPage): array;
+	public function read(bool $sort, string $column,
+				int $page, int $perPage): array;
 	public function update(int $key, array $fields): int;
 	public function delete(int $key): int;
 }
@@ -19,7 +20,7 @@ interface CRUD {
 
 final class Task implements CRUD
 {
-	protected $field_names = array('username', 'email', 'text');
+	protected $field_names = array('created', 'username', 'email', 'text');
 
 	public function create(array $fields): int
 	{
@@ -38,14 +39,19 @@ VALUES ($created, :a, :b, :c);"
 		return $db->lastInsertRowID();
 	}
 
-	public function read(int $page = 1, int $limit = PAGINATION): array
+	public function read(bool $sort, string $column,
+				int $page, int $limit = PAGINATION): array
 	{
 		global $db;
+
+		$sort = $sort ? 'ASC' : 'DESC';
+		$column = in_array($column, $this->field_names)
+				? $column : 'created';
 
 		$offset = ($page - 1) * $limit;
 		$result = $db->query("
 SELECT created as key, username, email, text, completed, updated
-FROM tasks LIMIT $limit OFFSET $offset;"
+FROM tasks ORDER BY $column $sort LIMIT $limit OFFSET $offset;"
 		);
 
 		$tasks = array();
@@ -101,8 +107,11 @@ UPDATE tasks SET updated = $updated, text = :text WHERE created = $key;"
 
 // Controller
 
+$sort = boolval($_GET['sort'] ?? 0);
+$column = $_GET['column'] ?? 'created';
+
 $page = intval($_GET['page']) ?? 1;
-$tasks = (new Task)->read($page);
+$tasks = (new Task)->read($sort, $column, $page);
 
 $task_count = $db->querySingle("SELECT count(created) FROM tasks");
 $pages = ceil($task_count / PAGINATION);
