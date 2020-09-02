@@ -174,10 +174,14 @@ case 'logout':
 	break;
 
 case 'task_completed':
-	(new Task)->update(get_key(), array('type' => 'completed'));
+	if ($authorization)
+		(new Task)->update(get_key(), array('type' => 'completed'));
 	break;
 
 case 'update_text':
+	if (!$authorization)
+		break;
+
 	$text = filter_input(INPUT_POST, 'text', FILTER_SANITIZE_SPECIAL_CHARS);
 	$values = array('type' => 'text', 'text' => $text);
 
