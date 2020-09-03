@@ -163,6 +163,9 @@ case 'new_task':
 		$values[$key] = trim($val);
 	}
 
+	setcookie('USER', $values['username']);
+	setcookie('EMAIL', $values['email']);
+
 	if ($valid)
 		$task_created = (new Task)->create($values);
 	break;

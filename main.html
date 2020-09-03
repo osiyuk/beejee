@@ -156,6 +156,7 @@ function validate_error(string $key) : string
 
 		<input class="form-control <?= if_error('username') ?
 			'border-danger' : '' ?>"
+		value="<?= $_POST['username'] ?? $_COOKIE['USER'] ?>"
 		type="text" name="username"></label>
 	</div>
 
@@ -165,6 +166,7 @@ function validate_error(string $key) : string
 
 		<input class="form-control <?= if_error('email') ?
 			'border-danger' : '' ?>"
+		value="<?= $_POST['email'] ?? $_COOKIE['EMAIL'] ?>"
 		type="email" name="email"></label>
 	</div>
 
@@ -174,6 +176,7 @@ function validate_error(string $key) : string
 
 		<input class="form-control <?= if_error('text') ?
 			'border-danger' : '' ?>"
+		value="<?php if (is_array($errors)) echo $_POST['text'] ?>"
 		type="text" name="text"></label>
 	</div>
 	<button class="btn btn-light" type="submit">Создать</button>
