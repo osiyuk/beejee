@@ -100,7 +100,10 @@ UPDATE tasks SET updated = $updated, text = :text WHERE created = $key;"
 
 	public function delete(int $key) : int
 	{
-		return 0;
+		global $db;
+
+		return $db->exec("
+DELETE FROM tasks WHERE created = $key;");
 	}
 }
 
@@ -200,6 +203,10 @@ case 'update_text':
 	$values = array('type' => 'text', 'text' => $text);
 
 	(new Task)->update(get_key(), $values);
+	break;
+
+case 'delete_task':
+	(new Task)->delete(get_key());
 	break;
 }
 

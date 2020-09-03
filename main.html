@@ -40,8 +40,12 @@
 </nav>
 
 <ul class="list-group">
-	<?php foreach ($tasks as $task) : ?>
+<?php foreach ($tasks as $task) : ?>
+
 	<li class="list-group-item">
+		<form method="POST">
+		<!-- <?= $task['key'] ?> -->
+		<input type="hidden" name="key" value="<?= $task['key'] ?>">
 		<div class="mb-2"><?= $task['username'] ?></div>
 		<div class="mb-2"><?= $task['email'] ?></div>
 		<div class="mb-2"><?= $task['text'] ?></div>
@@ -51,10 +55,12 @@
 		<div class="mb-2">
 		<button type="button" class="btn btn-warning">Изменить</button>
 		<button type="button" class="btn btn-success">Выполнить</button>
-		<button type="button" class="btn btn-danger">Удалить</button>
+		<button class="btn btn-danger" type="submit"
+		name="method" value="delete_task">Удалить</button>
 		</div>
+		</form>
 	</li>
-	<?php endforeach ?>
+<?php endforeach ?>
 
 	<li class="list-group-item">
 		<div class="mb-2">
@@ -221,12 +227,12 @@ function html_attr(string $name, array $form) : string
 <form class="col-3" method="POST">
 	<input type="hidden" name="method" value="new_task">
 
-	<?php if (isset($task_created) && $task_created > 0) : ?>
+<?php if (isset($task_created) && $task_created > 0) : ?>
 	<div class="form-group">
 		<span class="text-success">
 		Задача <?= $task_created ?> успешно добавлена</span>
 	</div>
-	<?php endif ?>
+<?php endif ?>
 
 <?php foreach ($new_task_form as $form) :
 	$input = array();
