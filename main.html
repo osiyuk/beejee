@@ -151,8 +151,35 @@ function validate_error(string $key) : string
 		case 'text': $message = 'не верна'; break;
 	}
 
-	return '<span class="text-danger">' . $message . '</span>';
+	return ' <span class="text-danger">' . $message . '</span>';
 }
+
+
+$new_task_form = array(
+	array(
+		'type' => 'text',
+		'name' => 'username',
+		'label' => 'Имя пользователя',
+		'error' => array('', 'пустое', 'не верно'),
+		'value' => $_POST['username'] ?? $_COOKIE['USER']
+	),
+
+	array(
+		'type' => 'email',
+		'name' => 'email',
+		'label' => 'Email',
+		'error' => array('', 'пустой', 'не верен'),
+		'value' => $_POST['email'] ?? $_COOKIE['EMAIL']
+	),
+
+	array(
+		'type' => 'text',
+		'name' => 'text',
+		'label' => 'Задача',
+		'error' => array('', 'пустая', 'не верна'),
+		'value' => is_array($errors) ? $_POST['text'] : ','
+	),
+);
 
 ?>
 
@@ -176,25 +203,6 @@ function validate_error(string $key) : string
 		type="text" name="username"></label>
 	</div>
 
-	<div class="form-group">
-		<label class="d-block">
-		Email <?= validate_error('email') ?>
-
-		<input class="form-control <?= if_error('email') ?
-			'border-danger' : '' ?>"
-		value="<?= $_POST['email'] ?? $_COOKIE['EMAIL'] ?>"
-		type="email" name="email"></label>
-	</div>
-
-	<div class="form-group">
-		<label class="d-block">
-		Задача <?= validate_error('text') ?>
-
-		<input class="form-control <?= if_error('text') ?
-			'border-danger' : '' ?>"
-		value="<?php if (is_array($errors)) echo $_POST['text'] ?>"
-		type="text" name="text"></label>
-	</div>
 	<button class="btn btn-light" type="submit">Создать</button>
 </form>
 
