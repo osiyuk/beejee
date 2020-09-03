@@ -132,6 +132,7 @@ if (isset($_COOKIE['AUTH']) && auth_cookie(ADMIN) == $_COOKIE['AUTH'])
 
 if ('POST' == $_SERVER['REQUEST_METHOD']) switch($_POST['method']) {
 case 'new_task':
+
 	$definitions = array(
 		'username' => FILTER_SANITIZE_SPECIAL_CHARS,
 		'email' => FILTER_SANITIZE_EMAIL,
@@ -142,7 +143,8 @@ case 'new_task':
 	$values = filter_input_array(INPUT_POST, $definitions);
 
 	foreach ($values as $key => $val) {
-		if (is_null($val)) {
+
+		if (is_null($val) || trim($val) === '') {
 			$valid = false;
 			$errors[$key] = 1;
 		}
@@ -150,6 +152,7 @@ case 'new_task':
 			$valid = false;
 			$errors[$key] = 2;
 		}
+		$values[$key] = trim($val);
 	}
 
 	if ($valid)

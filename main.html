@@ -105,29 +105,67 @@
 		</li>
 	</ul>
 </nav>
-
 </div>
+
+<?php
+
+function if_error(string $key) : bool
+{
+	global $errors;
+
+	return is_array($errors) && array_key_exists($key, $errors);
+}
+
+function validate_error(string $key) : string
+{
+	global $errors;
+
+	if (!if_error($key))
+		return '';
+
+	if (1 == $errors[$key]) switch ($key) {
+		case 'username': $message = 'пустое'; break;
+		case 'email': $message = 'пустой'; break;
+		case 'text': $message = 'пустая'; break;
+	}
+
+	if (2 == $errors[$key]) switch ($key) {
+		case 'username': $message = 'не верно'; break;
+		case 'email': $message = 'не верен'; break;
+		case 'text': $message = 'не верна'; break;
+	}
+
+	return '<span class="text-danger">' . $message . '</span>';
+}
+
+?>
 
 <form class="col-3" method="POST">
 	<input type="hidden" name="method" value="new_task">
 	<div class="form-group">
 		<label class="d-block">
-		Имя пользователя <span class="text-danger">пустое</span>
-		<input class="form-control border-danger"
+		Имя пользователя <?= validate_error('username') ?>
+
+		<input class="form-control <?= if_error('username') ?
+			'border-danger' : '' ?>"
 		type="text" name="username"></label>
 	</div>
 
 	<div class="form-group">
 		<label class="d-block">
-		Email <span class="text-danger">не верен</span>
-		<input class="form-control border-danger"
+		Email <?= validate_error('email') ?>
+
+		<input class="form-control <?= if_error('email') ?
+			'border-danger' : '' ?>"
 		type="email" name="email"></label>
 	</div>
 
 	<div class="form-group">
 		<label class="d-block">
-		Задача
-		<input class="form-control"
+		Задача <?= validate_error('text') ?>
+
+		<input class="form-control <?= if_error('text') ?
+			'border-danger' : '' ?>"
 		type="text" name="text"></label>
 	</div>
 	<button class="btn btn-light" type="submit">Создать</button>
