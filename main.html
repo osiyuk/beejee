@@ -40,6 +40,22 @@
 </nav>
 
 <ul class="list-group">
+	<?php foreach ($tasks as $task) : ?>
+	<li class="list-group-item">
+		<div class="mb-2"><?= $task['username'] ?></div>
+		<div class="mb-2"><?= $task['email'] ?></div>
+		<div class="mb-2"><?= $task['text'] ?></div>
+		<div class="mb-3">
+			<span class="badge badge-pill badge-light">отредактировано администратором</span>
+		</div>
+		<div class="mb-2">
+		<button type="button" class="btn btn-warning">Изменить</button>
+		<button type="button" class="btn btn-success">Выполнить</button>
+		<button type="button" class="btn btn-danger">Удалить</button>
+		</div>
+	</li>
+	<?php endforeach ?>
+
 	<li class="list-group-item">
 		<div class="mb-2">
 			Кирилл Осиюк
