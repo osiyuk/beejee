@@ -205,4 +205,5 @@ $tasks = (new Task)->read($sort, $column, $page);
 $task_count = $db->querySingle("SELECT count(created) FROM tasks");
 $pages = ceil($task_count / PAGINATION);
 
+include_once "main.html";
 phpinfo(INFO_VARIABLES); // INFO_CONFIGURATION
