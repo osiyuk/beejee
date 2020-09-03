@@ -86,6 +86,34 @@
 	<button class="btn btn-light" type="submit">Создать</button>
 </form>
 
+<div class="col-3"><form method="POST">
+	<input type="hidden" name="method" value="login">
+	<div class="form-group">
+		<span class="text-danger">
+		Username or password or&nbsp;both are&nbsp;incorrect</span>
+	</div>
+
+	<div class="form-group">
+		<label class="d-block">
+		Username
+		<input class="form-control border-danger"
+		type="text" name="login"></label>
+	</div>
+
+	<div class="form-group">
+		<label class="d-block">
+		Password
+		<input class="form-control border-danger"
+		type="password" name="pass"></label>
+	</div>
+	<button class="btn btn-primary" type="submit">Login</button>
+</form>
+
+<form method="POST">
+	<input type="hidden" name="method" value="logout">
+	<button class="btn btn-light" type="submit">Logout</button>
+</form></div>
+
 </div>
 
 <link rel="stylesheet" href="assets/bootstrap.css">
