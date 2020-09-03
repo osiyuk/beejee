@@ -125,36 +125,6 @@
 
 <?php
 
-function if_error(string $key) : bool
-{
-	global $errors;
-
-	return is_array($errors) && array_key_exists($key, $errors);
-}
-
-function validate_error(string $key) : string
-{
-	global $errors;
-
-	if (!if_error($key))
-		return '';
-
-	if (1 == $errors[$key]) switch ($key) {
-		case 'username': $message = 'пустое'; break;
-		case 'email': $message = 'пустой'; break;
-		case 'text': $message = 'пустая'; break;
-	}
-
-	if (2 == $errors[$key]) switch ($key) {
-		case 'username': $message = 'не верно'; break;
-		case 'email': $message = 'не верен'; break;
-		case 'text': $message = 'не верна'; break;
-	}
-
-	return ' <span class="text-danger">' . $message . '</span>';
-}
-
-
 $new_task_form = array(
 	array(
 		'type' => 'text',
@@ -177,9 +147,45 @@ $new_task_form = array(
 		'name' => 'text',
 		'label' => 'Задача',
 		'error' => array('', 'пустая', 'не верна'),
-		'value' => is_array($errors) ? $_POST['text'] : ','
+		'value' => is_array($errors) ? $_POST['text'] : ''
 	),
 );
+
+function inject_error(string $key) : string
+{
+	$err = get_error($key);
+	if ($err == '') return '';
+
+	return join(array(' <span class="text-danger">', $err, '</span>'));
+}
+
+function get_error(string $key) : string
+{
+	global $errors, $new_task_form;
+
+	if (if_error($key) === false)
+		return '';
+
+	$i = $errors[$key];
+
+	foreach ($new_task_form as $form) {
+		if ($form['name'] == $key)
+			return $form['error'][$i];
+	}
+	return '';
+}
+
+function if_error(string $key) : bool
+{
+	global $errors;
+
+	return is_array($errors) && array_key_exists($key, $errors);
+}
+
+function html_attr(string $name, array $form) : string
+{
+	return join(array($name, '="', $form[$name], '"'));
+}
 
 ?>
 
@@ -193,15 +199,22 @@ $new_task_form = array(
 	</div>
 	<?php endif ?>
 
-	<div class="form-group">
-		<label class="d-block">
-		Имя пользователя <?= validate_error('username') ?>
+<?php foreach ($new_task_form as $form) :
+	$input = array();
+	$label = $form['label'] . inject_error($form['name']);
+	$border = if_error($form['name']) ? ' border-danger' : '';
+	$form['class'] = 'form-control' . $border;
 
-		<input class="form-control <?= if_error('username') ?
-			'border-danger' : '' ?>"
-		value="<?= $_POST['username'] ?? $_COOKIE['USER'] ?>"
-		type="text" name="username"></label>
+	foreach (explode(' ', 'class type name value') as $attr)
+		$input[] = html_attr($attr, $form); ?>
+
+	<div class="form-group">
+		<label class="d-block"><?= $label ?>
+
+			<input <?= join(' ', $input) ?> />
+		</label>
 	</div>
+<?php endforeach ?>
 
 	<button class="btn btn-light" type="submit">Создать</button>
 </form>
