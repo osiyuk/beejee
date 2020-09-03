@@ -142,6 +142,14 @@ function validate_error(string $key) : string
 
 <form class="col-3" method="POST">
 	<input type="hidden" name="method" value="new_task">
+
+	<?php if (isset($task_created) && $task_created > 0) : ?>
+	<div class="form-group">
+		<span class="text-success">
+		Задача <?= $task_created ?> успешно добавлена</span>
+	</div>
+	<?php endif ?>
+
 	<div class="form-group">
 		<label class="d-block">
 		Имя пользователя <?= validate_error('username') ?>

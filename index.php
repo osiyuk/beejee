@@ -164,7 +164,7 @@ case 'new_task':
 	}
 
 	if ($valid)
-		(new Task)->create($values);
+		$task_created = (new Task)->create($values);
 	break;
 
 case 'login':
