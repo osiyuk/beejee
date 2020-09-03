@@ -218,7 +218,7 @@ $definitions = array(
 
 $get = filter_input_array(INPUT_GET, $definitions);
 $sort = boolval($get['sort']);
-$column = $get['column'] ?? '';
+$column = $get['column'] ?? 'created';
 $page = $get['page'] ?? 1;
 
 $tasks = (new Task)->read($sort, $column, $page);

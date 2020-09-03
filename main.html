@@ -11,6 +11,24 @@
 
 <div class="row">
 
+<?php
+
+$sort_status = 'по&nbsp;' . ($sort ? 'убыванию' : 'возрастанию');
+$sort_fields = array(
+	'created' => 'Дате добавления',
+	'username' => 'Имени',
+	'email' => 'Email',
+	'status' => 'Статусу',
+);
+
+if (!array_key_exists($column, $sort_fields))
+	$column = 'created';
+
+$label = explode(' ', $sort_fields[$column])[0];
+$sort = intval(!$sort);
+
+?>
+
 <div class="col-6">
 <nav aria-label="Сортировка" class="navbar navbar-expand">
 	<span class="navbar-brand">Задачник</span>
@@ -19,22 +37,31 @@
 		<li class="nav-item">
 			<span class="nav-link disabled">
 			Сортировка&nbsp;по</span>
-		<li>
+		</li>
+
 		<li class="nav-item dropdown">
-			<a href="#" class="nav-link dropdown-toggle"
-			data-toggle="dropdown"
-			aria-haspopup="true">Дате</a>
+			<a class="nav-link dropdown-toggle"
+			data-toggle="dropdown" href="#"
+			aria-haspopup="true"><?= $label ?></a>
 
 <div class="dropdown-menu">
-	<span class="dropdown-item disabled">Дате добавления</span>
-	<a class="dropdown-item" href="#">Имени</a>
-	<a class="dropdown-item" href="#">Email</a>
-	<a class="dropdown-item" href="#">Статусу</a>
+<?php foreach ($sort_fields as $name => $label) :
+	if ($name == $column) : ?>
+
+	<span class="dropdown-item disabled"><?= $label ?></span>
+	<?php else :
+		$link = '?column=' . $name ?>
+
+	<a class="dropdown-item" href="<?= $link ?>"><?= $label ?></a>
+	<?php endif;
+endforeach ?>
+
 </div>
 
 		</li>
 		<li class="nav-item">
-			<a class="nav-link" href="#">по&nbsp;возрастанию</a>
+			<a class="nav-link"
+			href="?sort=<?= $sort ?>"><?= $sort_status ?></a>
 		</li>
 	</ul>
 </nav>
