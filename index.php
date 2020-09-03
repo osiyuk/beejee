@@ -130,13 +130,21 @@ if (isset($_COOKIE['AUTH']) && auth_cookie(ADMIN) == $_COOKIE['AUTH'])
 	$authorization = true;
 
 
+define('FILTER_STRIP_FLAGS',
+	FILTER_FLAG_STRIP_LOW | FILTER_FLAG_STRIP_BACKTICK);
+
+define('SANITIZE_SPECIAL_CHARS', array(
+	'filter' => FILTER_SANITIZE_SPECIAL_CHARS,
+	'flags'  => FILTER_STRIP_FLAGS));
+
+
 if ('POST' == $_SERVER['REQUEST_METHOD']) switch($_POST['method']) {
 case 'new_task':
 
 	$definitions = array(
-		'username' => FILTER_SANITIZE_SPECIAL_CHARS,
-		'email' => FILTER_SANITIZE_EMAIL,
-		'text' => FILTER_SANITIZE_SPECIAL_CHARS
+		'username' => SANITIZE_SPECIAL_CHARS,
+		'email' => FILTER_VALIDATE_EMAIL,
+		'text' => SANITIZE_SPECIAL_CHARS
 	);
 
 	$valid = true;
