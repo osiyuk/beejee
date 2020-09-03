@@ -11,7 +11,9 @@
 
 <div class="row">
 
-<ul class="list-group col-6">
+<div class="col-6">
+
+<ul class="list-group">
 	<li class="list-group-item">
 		<div class="mb-2">
 			Кирилл Осиюк
@@ -60,6 +62,25 @@
 		</div>
 	</li>
 </ul>
+
+<nav aria-label="Пагинация" class="my-4">
+	<ul class="pagination">
+		<li class="page-item disabled">
+			<span class="page-link">Назад</span>
+		</li>
+		<li class="page-item active" aria-current="page">
+			<span class="page-link">1</span>
+		</li>
+		<li class="page-item">
+			<a class="page-link" href="#">2</a>
+		</li>
+		<li class="page-item">
+			<a class="page-link" href="#">Вперед</a>
+		</li>
+	</ul>
+</nav>
+
+</div>
 
 <form class="col-3" method="POST">
 	<input type="hidden" name="method" value="new_task">
