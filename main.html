@@ -9,6 +9,8 @@
 	Задача: разработать приложение-задачник по модели MVC
 </p>
 
+<div class="row">
+
 <ul class="list-group col-6">
 	<li class="list-group-item">
 		<div class="mb-2">
@@ -58,6 +60,33 @@
 		</div>
 	</li>
 </ul>
+
+<form class="col-3" method="POST">
+	<input type="hidden" name="method" value="new_task">
+	<div class="form-group">
+		<label class="d-block">
+		Имя пользователя <span class="text-danger">пустое</span>
+		<input class="form-control border-danger"
+		type="text" name="username"></label>
+	</div>
+
+	<div class="form-group">
+		<label class="d-block">
+		Email <span class="text-danger">не верен</span>
+		<input class="form-control border-danger"
+		type="email" name="email"></label>
+	</div>
+
+	<div class="form-group">
+		<label class="d-block">
+		Задача
+		<input class="form-control"
+		type="text" name="text"></label>
+	</div>
+	<button class="btn btn-light" type="submit">Создать</button>
+</form>
+
+</div>
 
 <link rel="stylesheet" href="assets/bootstrap.css">
 </body>
