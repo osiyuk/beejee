@@ -1,4 +1,4 @@
-create table tasks (
+CREATE TABLE IF NOT EXISTS tasks (
 	created datetime primary key,
 	updated datetime,
 	completed datetime,
