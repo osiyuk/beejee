@@ -50,7 +50,7 @@ $sort = intval(!$sort);
 
 	<span class="dropdown-item disabled"><?= $label ?></span>
 	<?php else :
-		$link = '?column=' . $name ?>
+		$link = get_url('column', $name) ?>
 
 	<a class="dropdown-item" href="<?= $link ?>"><?= $label ?></a>
 	<?php endif;
@@ -60,8 +60,9 @@ endforeach ?>
 
 		</li>
 		<li class="nav-item">
+<?php $link = get_url('sort', $sort) ?>
 			<a class="nav-link"
-			href="?sort=<?= $sort ?>"><?= $sort_status ?></a>
+			href="<?= $link ?>"><?= $sort_status ?></a>
 		</li>
 	</ul>
 </nav>
@@ -141,7 +142,7 @@ endforeach ?>
 <nav aria-label="Пагинация" class="my-4">
 	<ul class="pagination">
 <?php if ($page > 1) :
-	$prev = '?page=' . ($page - 1) ?>
+	$prev = get_url('page', $page - 1) ?>
 
 		<li class="page-item">
 			<a class="page-link" href="<?= $prev ?>">Назад</a>
@@ -160,7 +161,7 @@ for ($i = 1; $i <= $pages; $i++) :
 			<span class="page-link"><?= $page ?></span>
 		</li>
 	<?php else :
-		$link = "?page=$i" ?>
+		$link = get_url('page', $i) ?>
 
 		<li class="page-item">
 			<a class="page-link" href="<?= $link ?>"><?= $i ?></a>
@@ -169,7 +170,7 @@ for ($i = 1; $i <= $pages; $i++) :
 endfor;
 
 if ($page < $pages) :
-	$next = '?page=' . ($page + 1) ?>
+	$next = get_url('page', $page + 1) ?>
 
 		<li class="page-item">
 			<a class="page-link" href="<?= $next ?>">Вперед</a>

@@ -119,6 +119,16 @@ function auth_cookie(string $login) : string
 	return $cookie;
 }
 
+
+function get_url(string $param, string $value) : string
+{
+	parse_str($_SERVER['QUERY_STRING'], $query);
+	$query[$param] = $value;
+
+	return '/?' . http_build_query($query);
+}
+
+
 function get_key() : int
 {
 	return filter_input(INPUT_POST, 'key', FILTER_VALIDATE_INT);
