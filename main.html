@@ -78,11 +78,17 @@ endforeach ?>
 		<div class="mb-2"><?= $task['email'] ?></div>
 		<div class="mb-2"><?= $task['text'] ?></div>
 		<div class="mb-3">
+<?php if ($task['completed'] > 0) : ?>
+	<span class="badge badge-pill badge-success">выполнено</span>
+<?php endif ?>
 			<span class="badge badge-pill badge-light">отредактировано администратором</span>
 		</div>
 		<div class="mb-2">
 		<button type="button" class="btn btn-warning">Изменить</button>
-		<button type="button" class="btn btn-success">Выполнить</button>
+<?php if ($task['completed'] === null) : ?>
+		<button class="btn btn-success" type="submit"
+		name="method" value="task_completed">Выполнить</button>
+<?php endif ?>
 		<button class="btn btn-danger" type="submit"
 		name="method" value="delete_task">Удалить</button>
 		</div>
