@@ -56,16 +56,6 @@ FROM tasks ORDER BY $column $sort LIMIT $limit OFFSET $offset;"
 
 		$tasks = array();
 		while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
-			if ($row['completed'] > 0)
-				$status[] = array('success' => 'выполнено');
-			unset($row['completed']);
-
-			if ($row['updated'] > 0)
-				$status[] = array('light' =>
-					'отредактировано администратором');
-			unset($row['updated']);
-
-			$row['status'] = $status;
 			$tasks[] = $row;
 		}
 
@@ -227,11 +217,11 @@ $definitions = array(
 	'page' => FILTER_VALIDATE_INT
 );
 
-$get = filter_input_array(INPUT_GET, $definitions);
-$edit = intval($get['edit']) ?? null;
-$sort = boolval($get['sort']);
-$column = $get['column'] ?? 'created';
-$page = $get['page'] ?? 1;
+$GET = filter_input_array(INPUT_GET, $definitions);
+$edit = intval($GET['edit']) ?? null;
+$sort = boolval($GET['sort']);
+$column = $GET['column'] ?? 'created';
+$page = $GET['page'] ?? 1;
 
 $tasks = (new Task)->read($sort, $column, $page);
 

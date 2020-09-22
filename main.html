@@ -93,7 +93,12 @@ endforeach ?>
 <?php if ($task['completed'] > 0) : ?>
 	<span class="badge badge-pill badge-success">выполнено</span>
 <?php endif ?>
-			<span class="badge badge-pill badge-light">отредактировано администратором</span>
+
+<?php if ($task['updated'] > 0) : ?>
+	<span class="badge badge-pill badge-light">
+	отредактировано администратором</span>
+<?php endif ?>
+
 		</div>
 		<div class="mb-2">
 <?php if ($not_edit) : ?>
@@ -122,54 +127,6 @@ endforeach ?>
 		</form>
 	</li>
 <?php endforeach ?>
-
-	<li class="list-group-item">
-		<div class="mb-2">
-			Кирилл Осиюк
-		</div>
-		<div class="mb-2">
-			kiril.saradomin@gmail.com
-		</div>
-		<div class="mb-2">
-			Сверстать карточку задачи
-		</div>
-
-		<div class="mb-3">
-		<span class="badge badge-pill badge-success">выполнено</span>
-		<span class="badge badge-pill badge-light">отредактировано администратором</span>
-		</div>
-
-		<div class="mb-1">
-		<button type="button" class="btn btn-warning">Изменить</button>
-		<button type="button" class="btn btn-success">Выполнить</button>
-		<button type="button" class="btn btn-danger">Удалить</button>
-		</div>
-	</li>
-
-	<li class="list-group-item">
-		<div class="mb-2">
-			Кирилл Осиюк
-		</div>
-		<div class="mb-2">
-			kiril.saradomin@gmail.com
-		</div>
-
-		<div class="mb-3">
-			<input class="col-9 form-control d-inline-block"
-			type="text" name="text"
-			value="Сверстать карточку задачи">
-		</div>
-
-		<div class="mb-3">
-		<span class="badge badge-pill badge-success">выполнено</span>
-		<span class="badge badge-pill badge-light">отредактированно администратором</span>
-		</div>
-
-		<div class="mb-1">
-		<button type="button" class="btn btn-light">Отменить</button>
-		<button type="button" class="btn btn-danger">Сохранить</button>
-		</div>
-	</li>
 </ul>
 
 <nav aria-label="Пагинация" class="my-4">
@@ -348,5 +305,3 @@ function html_attr(string $name, array $form) : string
 <link rel="stylesheet" href="assets/bootstrap.css">
 <script src="assets/jquery-3.5.1.slim.js" defer></script>
 <script src="assets/bootstrap.js" defer></script>
-</body>
-</html>
