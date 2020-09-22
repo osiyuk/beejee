@@ -86,7 +86,7 @@ UPDATE tasks SET completed = $completed WHERE created = $key;"
 		case 'text':
 			$updated = time();
 			$query = $db->prepare("
-UPDATE tasks SET updated = $updated, text = :text WHERE created = $key;"
+UPDATE tasks SET updated = $updated, text = :a WHERE created = $key;"
 			);
 			$query->bindValue(':a', $fields['text'], SQLITE3_TEXT);
 
@@ -120,7 +120,7 @@ function auth_cookie(string $login) : string
 }
 
 
-function get_url(string $param, string $value) : string
+function get_url(string $param, ?string $value) : string
 {
 	parse_str($_SERVER['QUERY_STRING'], $query);
 	$query[$param] = $value;
@@ -221,12 +221,14 @@ case 'delete_task':
 }
 
 $definitions = array(
+	'edit' => FILTER_VALIDATE_INT,
 	'sort' => FILTER_VALIDATE_INT,
 	'column' => FILTER_SANITIZE_STRING,
 	'page' => FILTER_VALIDATE_INT
 );
 
 $get = filter_input_array(INPUT_GET, $definitions);
+$edit = intval($get['edit']) ?? null;
 $sort = boolval($get['sort']);
 $column = $get['column'] ?? 'created';
 $page = $get['page'] ?? 1;

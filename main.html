@@ -68,15 +68,27 @@ endforeach ?>
 </nav>
 
 <ul class="list-group">
-<?php foreach ($tasks as $task) : ?>
+<?php foreach ($tasks as $task) :
+	$not_edit = ($edit === null || $task['key'] !== $edit) ?>
 
 	<li class="list-group-item">
-		<form method="POST">
+		<form method="POST" action="<?= get_url('edit', null) ?>">
 		<!-- <?= $task['key'] ?> -->
 		<input type="hidden" name="key" value="<?= $task['key'] ?>">
 		<div class="mb-2"><?= $task['username'] ?></div>
 		<div class="mb-2"><?= $task['email'] ?></div>
+<?php if ($not_edit) : ?>
+
 		<div class="mb-2"><?= $task['text'] ?></div>
+<?php else : ?>
+
+		<div class="mb-3">
+			<input class="form-control d-inline-block"
+			type="text" name="text"
+			value="<?= $task['text'] ?>">
+		</div>
+<?php endif ?>
+
 		<div class="mb-3">
 <?php if ($task['completed'] > 0) : ?>
 	<span class="badge badge-pill badge-success">выполнено</span>
@@ -84,13 +96,28 @@ endforeach ?>
 			<span class="badge badge-pill badge-light">отредактировано администратором</span>
 		</div>
 		<div class="mb-2">
-		<button type="button" class="btn btn-warning">Изменить</button>
-<?php if ($task['completed'] === null) : ?>
+<?php if ($not_edit) : ?>
+
+		<a href="<?= get_url('edit', $task['key']) ?>">
+		<button class="btn btn-warning" type="button">Изменить</button>
+		</a>
+<?php 	if ($task['completed'] === null) : ?>
+
 		<button class="btn btn-success" type="submit"
 		name="method" value="task_completed">Выполнить</button>
-<?php endif ?>
+<?php 	endif ?>
+
 		<button class="btn btn-danger" type="submit"
 		name="method" value="delete_task">Удалить</button>
+<?php else : ?>
+
+		<a href="<?= get_url('edit', null) ?>">
+		<button class="btn btn-light" type="button">Отменить</button>
+		</a>
+		<button class="btn btn-danger" type="submit"
+		name="method" value="update_text">Сохранить</button>
+<?php endif ?>
+
 		</div>
 		</form>
 	</li>
