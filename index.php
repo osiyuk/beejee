@@ -4,6 +4,7 @@ ini_set('display_errors', true);
 
 define('PAGINATION', 3);
 define('ADMIN', 'admin:123');
+define('AUTH_EXPIRES', time() + 60*60*10); // 10 hours
 
 $db = new SQLite3('db.sqlite', SQLITE3_OPEN_READWRITE);
 
@@ -181,7 +182,7 @@ case 'login':
 		break;
 	}
 
-	setcookie('AUTH', auth_cookie($login));
+	setcookie('AUTH', auth_cookie($login), AUTH_EXPIRES);
 	$authorization = true;
 	break;
 
