@@ -67,6 +67,11 @@ endforeach ?>
 	</ul>
 </nav>
 
+<?php if (isset($errors['auth_required'])) : ?>
+
+<span class="text-danger">Необходима авторизация</span>
+<?php endif ?>
+
 <ul class="list-group">
 <?php foreach ($tasks as $task) :
 	$not_edit = ($edit === null || $task['key'] !== $edit) ?>

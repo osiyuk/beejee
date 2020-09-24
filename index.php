@@ -193,12 +193,15 @@ case 'logout':
 case 'task_completed':
 	if ($authorization) {
 		(new Task)->update(get_key(), array('type' => 'completed'));
+		break;
 	}
 
+	$errors['auth_required'] = true;
 	break;
 
 case 'update_text':
 	if (!$authorization) {
+		$errors['auth_required'] = true;
 		break;
 	}
 
@@ -211,8 +214,10 @@ case 'update_text':
 case 'delete_task':
 	if ($authorization) {
 		(new Task)->delete(get_key());
+		break;
 	}
 
+	$errors['auth_required'] = true;
 	break;
 }
 
