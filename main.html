@@ -189,7 +189,7 @@ $new_task_form = array(
 		'name' => 'username',
 		'label' => 'Имя пользователя',
 		'error' => array('', 'пустое', 'не верно'),
-		'value' => $_POST['username'] ?? $_COOKIE['USER']
+		'value' => $_POST['username'] ?? $_COOKIE['USER'] ?? ''
 	),
 
 	array(
@@ -197,7 +197,7 @@ $new_task_form = array(
 		'name' => 'email',
 		'label' => 'Email',
 		'error' => array('', 'пустой', 'не верен'),
-		'value' => $_POST['email'] ?? $_COOKIE['EMAIL']
+		'value' => $_POST['email'] ?? $_COOKIE['EMAIL'] ?? ''
 	),
 
 	array(
@@ -205,7 +205,7 @@ $new_task_form = array(
 		'name' => 'text',
 		'label' => 'Задача',
 		'error' => array('', 'пустая', 'не верна'),
-		'value' => is_array($errors) ? $_POST['text'] : ''
+		'value' => isset($errors) ? $_POST['text'] ?? '' : ''
 	),
 );
 
