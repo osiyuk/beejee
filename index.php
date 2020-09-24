@@ -191,13 +191,16 @@ case 'logout':
 	break;
 
 case 'task_completed':
-	if ($authorization)
+	if ($authorization) {
 		(new Task)->update(get_key(), array('type' => 'completed'));
+	}
+
 	break;
 
 case 'update_text':
-	if (!$authorization)
+	if (!$authorization) {
 		break;
+	}
 
 	$text = filter_input(INPUT_POST, 'text', FILTER_SANITIZE_SPECIAL_CHARS);
 	$values = array('type' => 'text', 'text' => $text);
@@ -206,7 +209,10 @@ case 'update_text':
 	break;
 
 case 'delete_task':
-	(new Task)->delete(get_key());
+	if ($authorization) {
+		(new Task)->delete(get_key());
+	}
+
 	break;
 }
 
