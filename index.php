@@ -111,12 +111,26 @@ function auth_cookie(string $login) : string
 }
 
 
+function get_request_uri() : string
+{
+	$full_uri = $_SERVER['REQUEST_URI'];
+	$query_pos = strpos($full_uri, '?');
+
+	if ($query_pos === null) {
+		return $full_uri;
+	}
+
+	return substr($full_uri, 0, $query_pos);
+}
+
+
 function get_url(string $param, ?string $value) : string
 {
 	parse_str($_SERVER['QUERY_STRING'], $query);
 	$query[$param] = $value;
+	$query_string = http_build_query($query);
 
-	return '/?' . http_build_query($query);
+	return get_request_uri() . '?' . $query_string;
 }
 
 
