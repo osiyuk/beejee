@@ -6,7 +6,8 @@ define('PAGINATION', 3);
 define('ADMIN', 'admin:123');
 define('AUTH_EXPIRES', time() + 60*60*10); // 10 hours
 
-$db = new SQLite3('db.sqlite', SQLITE3_OPEN_READWRITE);
+$db = new SQLite3(getenv('DATABASE'), SQLITE3_OPEN_READWRITE);
+
 
 interface CRUD {
 	public function create(array $fields): int;
@@ -15,7 +16,6 @@ interface CRUD {
 	public function update(int $key, array $fields): int;
 	public function delete(int $key): int;
 }
-
 
 // Model
 

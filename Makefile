@@ -6,4 +6,4 @@ clear:
 	rm -f db.sqlite
 
 server:
-	php -S localhost:80
+	DATABASE=db.sqlite php -S localhost:80
